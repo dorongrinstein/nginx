@@ -1,61 +1,63 @@
-kind: workload
-name: nginx
-description: nginx
-
+apiVersion: cpln.io/v1
 org: doron-test1
 gvc: my-cat
-tags: 
-  name: doron
-  "location": "los angeles"
+metadata:
+  name: nginx
+  namespace: default
+  resourceVersion: '2'
+  annotations: {}
+kind: workload
+description: nginx
+tags: {}
 spec:
   type: standard
   containers:
-    - name: nginx
-      cpu: 50m
+    - cpu: 50m
+      name: nginx
       image: nginx:latest
-      inheritEnv: false
-      memory: 128Mi
       ports:
         - number: 80
           protocol: http
+      memory: 128Mi
+      inheritEnv: false
       readinessProbe:
-        failureThreshold: 3
         httpGet:
-          httpHeaders: []
           path: /
           port: 80
           scheme: HTTP
-        initialDelaySeconds: 0
+          httpHeaders: []
         periodSeconds: 10
-        successThreshold: 1
         timeoutSeconds: 1
+        failureThreshold: 3
+        successThreshold: 1
+        initialDelaySeconds: 0
+  loadBalancer:
+    direct:
+      ports: []
+      enabled: false
+    replicaDirect: false
   defaultOptions:
-    autoscaling:
-      maxConcurrency: 0
-      maxScale: 3
-      metric: cpu
-      minScale: 1
-      scaleToZeroDelay: 300
-      target: 100
-    capacityAI: false
     debug: false
     suspend: false
+    capacityAI: false
+    autoscaling:
+      metric: cpu
+      target: 100
+      maxScale: 3
+      minScale: 1
+      maxConcurrency: 0
+      scaleToZeroDelay: 300
     timeoutSeconds: 5
   firewallConfig:
     external:
       inboundAllowCIDR:
         - 0.0.0.0/0
-      inboundBlockedCIDR: []
       outboundAllowCIDR: []
-      outboundAllowHostname: []
       outboundAllowPort: []
+      inboundBlockedCIDR: []
       outboundBlockedCIDR: []
+      outboundAllowHostname: []
     internal:
       inboundAllowType: none
       inboundAllowWorkload: []
-  loadBalancer:
-    direct:
-      enabled: false
-      ports: []
-    replicaDirect: false
   supportDynamicTags: false
