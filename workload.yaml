@@ -2,7 +2,7 @@ kind: workload
 name: nginx
 description: nginx
 
-# org: doron-test1
+org: doron-test1
 gvc: my-cat
 tags: 
   name: doron
