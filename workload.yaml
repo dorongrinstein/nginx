@@ -1,0 +1,56 @@
+kind: workload
+name: nginx
+description: nginx
+tags: {}
+spec:
+  type: standard
+  containers:
+    - name: nginx
+      cpu: 50m
+      image: nginx:latest
+      inheritEnv: false
+      memory: 128Mi
+      ports:
+        - number: 80
+          protocol: http
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          httpHeaders: []
+          path: /
+          port: 80
+          scheme: HTTP
+        initialDelaySeconds: 0
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+  defaultOptions:
+    autoscaling:
+      maxConcurrency: 0
+      maxScale: 3
+      metric: cpu
+      minScale: 1
+      scaleToZeroDelay: 300
+      target: 100
+    capacityAI: false
+    debug: false
+    suspend: false
+    timeoutSeconds: 5
+  firewallConfig:
+    external:
+      inboundAllowCIDR:
+        - 0.0.0.0/0
+      inboundBlockedCIDR: []
+      outboundAllowCIDR: []
+      outboundAllowHostname: []
+      outboundAllowPort: []
+      outboundBlockedCIDR: []
+    internal:
+      inboundAllowType: none
+      inboundAllowWorkload: []
+  loadBalancer:
+    direct:
+      enabled: false
+      ports: []
+    replicaDirect: false
+  supportDynamicTags: false
