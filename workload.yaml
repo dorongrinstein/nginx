@@ -1,7 +1,12 @@
 kind: workload
 name: nginx
 description: nginx
-tags: {}
+
+# org: doron-test1
+gvc: my-cat
+tags: 
+  name: doron
+  "location": "los angeles"
 spec:
   type: standard
   containers:
