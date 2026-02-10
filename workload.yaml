@@ -16,7 +16,7 @@ spec:
   containers:
     - cpu: 50m
       name: nginx
-      image: doron/tetris
+      image: nginx:latest
       ports:
         - number: 80
           protocol: http
